@@ -142,23 +142,23 @@
 
 <div id="overlay">
     <div id="scoreboard">
-        <div class="team" id="teamBuzz">
-            <h2>Team Buzz</h2>
+        <div class="team" id="teamBeeBrained">
+            <h2>BeeBrained</h2>
             <div class="score">
-                <span id="buzzScore">0</span>
+                <span id="beeBrainedScore">0</span>
                 <div class="score-controls">
-                    <span class="arrow" onclick="updateScore('buzz', 1)">&#9650;</span>
-                    <span class="arrow" onclick="updateScore('buzz', -1)">&#9660;</span>
+                    <span class="arrow" onclick="updateScore('beeBrained', 1)">&#9650;</span>
+                    <span class="arrow" onclick="updateScore('beeBrained', -1)">&#9660;</span>
                 </div>
             </div>
         </div>
-        <div class="team" id="teamVexor">
-            <h2>Team Vexor</h2>
+        <div class="team" id="teamYoutubeChat">
+            <h2>Youtube Chat</h2>
             <div class="score">
-                <span id="vexorScore">0</span>
+                <span id="youtubeChatScore">0</span>
                 <div class="score-controls">
-                    <span class="arrow" onclick="updateScore('vexor', 1)">&#9650;</span>
-                    <span class="arrow" onclick="updateScore('vexor', -1)">&#9660;</span>
+                    <span class="arrow" onclick="updateScore('youtubeChat', 1)">&#9650;</span>
+                    <span class="arrow" onclick="updateScore('youtubeChat', -1)">&#9660;</span>
                 </div>
             </div>
         </div>
@@ -173,8 +173,8 @@
 </div>
 
 <script>
-let buzzScore = 0;
-let vexorScore = 0;
+let beeBrainedScore = 0;
+let youtubeChatScore = 0;
 
 document.getElementById('addStoryButton').addEventListener('click', function() {
     const newContent = document.getElementById('novelAIInput').value;
@@ -185,31 +185,31 @@ document.getElementById('addStoryButton').addEventListener('click', function() {
 });
 
 function updateScore(team, change) {
-    if (team === 'buzz') {
-        buzzScore = Math.max(0, buzzScore + change);
-        document.getElementById('buzzScore').innerText = buzzScore;
-    } else if (team === 'vexor') {
-        vexorScore = Math.max(0, vexorScore + change);
-        document.getElementById('vexorScore').innerText = vexorScore;
+    if (team === 'beeBrained') {
+        beeBrainedScore = Math.max(0, beeBrainedScore + change);
+        document.getElementById('beeBrainedScore').innerText = beeBrainedScore;
+    } else if (team === 'youtubeChat') {
+        youtubeChatScore = Math.max(0, youtubeChatScore + change);
+        document.getElementById('youtubeChatScore').innerText = youtubeChatScore;
     }
     checkWinner();
 }
 
 function checkWinner() {
-    if (buzzScore >= 5) {
-        alert("Team Buzz wins!");
+    if (beeBrainedScore >= 5) {
+        alert("BeeBrained wins!");
         resetGame();
-    } else if (vexorScore >= 5) {
-        alert("Team Vexor wins!");
+    } else if (youtubeChatScore >= 5) {
+        alert("Youtube Chat wins!");
         resetGame();
     }
 }
 
 function resetGame() {
-    buzzScore = 0;
-    vexorScore = 0;
-    document.getElementById('buzzScore').innerText = buzzScore;
-    document.getElementById('vexorScore').innerText = vexorScore;
+    beeBrainedScore = 0;
+    youtubeChatScore = 0;
+    document.getElementById('beeBrainedScore').innerText = beeBrainedScore;
+    document.getElementById('youtubeChatScore').innerText = youtubeChatScore;
 }
 
 function addStoryContent(content) {
