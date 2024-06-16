@@ -63,6 +63,27 @@
         color: #FFD700;
         font-weight: bold;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .score-controls {
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+    }
+
+    .arrow {
+        cursor: pointer;
+        font-size: 24px;
+        color: #FFD700;
+        user-select: none;
+        transition: color 0.3s;
+    }
+
+    .arrow:hover {
+        color: #FFA500;
     }
 
     #story {
@@ -123,19 +144,31 @@
     <div id="scoreboard">
         <div class="team" id="teamBuzz">
             <h2>Team Buzz</h2>
-            <div class="score" id="buzzScore">0</div>
+            <div class="score">
+                <span id="buzzScore">0</span>
+                <div class="score-controls">
+                    <span class="arrow" onclick="updateScore('buzz', 1)">&#9650;</span>
+                    <span class="arrow" onclick="updateScore('buzz', -1)">&#9660;</span>
+                </div>
+            </div>
         </div>
         <div class="team" id="teamVexor">
             <h2>Team Vexor</h2>
-            <div class="score" id="vexorScore">0</div>
+            <div class="score">
+                <span id="vexorScore">0</span>
+                <div class="score-controls">
+                    <span class="arrow" onclick="updateScore('vexor', 1)">&#9650;</span>
+                    <span class="arrow" onclick="updateScore('vexor', -1)">&#9660;</span>
+                </div>
+            </div>
         </div>
     </div>
     <div id="story">
         <p class="story-paragraph" id="storyContent">Buzz, with the ancient parchment in his grasp, sets off towards the Forbidden Forest, the first landmark on his quest. As he enters the dense, shadowy woods, he hears an eerie whisper...</p>
     </div>
     <div id="controls">
-        <button class="button" id="buzzButton">Team Buzz Action</button>
-        <button class="button" id="vexorButton">Team Vexor Action</button>
+        <textarea id="novelAIInput" rows="4" cols="50" placeholder="Paste Novel AI output here..."></textarea>
+        <button class="button" id="addStoryButton">Add Story Content</button>
     </div>
 </div>
 
@@ -143,19 +176,24 @@
 let buzzScore = 0;
 let vexorScore = 0;
 
-document.getElementById('buzzButton').addEventListener('click', function() {
-    buzzScore++;
-    document.getElementById('buzzScore').innerText = buzzScore;
-    checkWinner();
-    addStoryContent(getNextStoryContent('buzz'));
+document.getElementById('addStoryButton').addEventListener('click', function() {
+    const newContent = document.getElementById('novelAIInput').value;
+    if (newContent) {
+        addStoryContent(newContent);
+        document.getElementById('novelAIInput').value = ''; // Clear the textarea after adding content
+    }
 });
 
-document.getElementById('vexorButton').addEventListener('click', function() {
-    vexorScore++;
-    document.getElementById('vexorScore').innerText = vexorScore;
+function updateScore(team, change) {
+    if (team === 'buzz') {
+        buzzScore = Math.max(0, buzzScore + change);
+        document.getElementById('buzzScore').innerText = buzzScore;
+    } else if (team === 'vexor') {
+        vexorScore = Math.max(0, vexorScore + change);
+        document.getElementById('vexorScore').innerText = vexorScore;
+    }
     checkWinner();
-    addStoryContent(getNextStoryContent('vexor'));
-});
+}
 
 function checkWinner() {
     if (buzzScore >= 5) {
@@ -181,22 +219,6 @@ function addStoryContent(content) {
     paragraph.innerText = content;
     storyContent.appendChild(paragraph);
     storyContent.scrollTop = storyContent.scrollHeight;
-}
-
-function getNextStoryContent(team) {
-    const content = {
-        buzz: [
-            "Buzz bravely navigates through the twisting trails, finding an old oak tree with a mysterious inscription.",
-            "Suddenly, Buzz hears a rustling sound and discovers a hidden grove with a talking owl who offers cryptic advice."
-        ],
-        vexor: [
-            "Vexor the Venomous Wasp sneaks up behind Buzz, setting a trap with glistening webs.",
-            "With a menacing grin, Vexor taunts Buzz, revealing his plan to seize the Legendary Nectar for himself."
-        ]
-    };
-    const teamContent = content[team];
-    const randomIndex = Math.floor(Math.random() * teamContent.length);
-    return teamContent[randomIndex];
 }
 </script>
 
